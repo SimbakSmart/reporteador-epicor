@@ -5,8 +5,24 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Presentation"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" 
+        Height="450" Width="800"
+        WindowStyle="None"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized">
     <Grid>
+        <StackPanel>
+            <Button Content="Minimizar" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Click="MinimizeButton_Click"/>
+            <Button Content="Maximizar" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="80,0,0,0" Width="75" Click="MaximizeButton_Click"/>
+            <Button Content="Restaurar" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="160,0,0,0" Width="75" Click="RestoreButton_Click"/>
+
+
+            <ToggleButton x:Name="DarkModeToggle"
+                  Content="Dark Mode"
+                  Checked="DarkModeToggle_Checked"/>
+
+        </StackPanel>
         
     </Grid>
 </Window>
