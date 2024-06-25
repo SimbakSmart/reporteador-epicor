@@ -132,21 +132,39 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\MenuItem.cs" />
+    <Compile Include="UC\CallInQueueView.xaml.cs">
+      <DependentUpon>CallInQueueView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UC\ReportForPartsView.xaml.cs">
+      <DependentUpon>ReportForPartsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ViewModel\CallInQueueViewModel.cs" />
+    <Compile Include="ViewModel\ReportForPartsViewModel.cs" />
+    <Compile Include="ViewModel\StartViewModel.cs" />
     <Compile Include="Views\StartView.xaml.cs">
       <DependentUpon>StartView.xaml</DependentUpon>
     </Compile>
-    <Page Include="MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
+    <Page Include="Styles\Colors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Styles\Fonts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UC\CallInQueueView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UC\ReportForPartsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\StartView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -170,6 +188,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <Resource Include="Fonts\Anton-Regular.ttf" />
+    <Resource Include="Fonts\LilitaOne-Regular.ttf" />
+    <Resource Include="Fonts\Roboto-Regular.ttf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -192,9 +213,9 @@
       <Name>Infraestructure</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="UC\" />
-    <Folder Include="ViewModel\" />
+    <Resource Include="Images\smart.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\MaterialDesignThemes.5.1.0\build\MaterialDesignThemes.targets" Condition="Exists('..\packages\MaterialDesignThemes.5.1.0\build\MaterialDesignThemes.targets')" />
