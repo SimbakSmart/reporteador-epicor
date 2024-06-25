@@ -6,6 +6,7 @@ using MaterialDesignThemes.Wpf;
 using Presentation.UC;
 using System;
 using System.Collections.ObjectModel;
+using System.Runtime.Caching;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MenuItem = Presentation.Helpers.MenuItem;
@@ -13,7 +14,7 @@ namespace Presentation.ViewModel
 {
     public  class StartViewModel:ViewModelBase
     {
-
+        ObjectCache cache = MemoryCache.Default;
         public bool isDarkMode;
 
         public bool IsDarkMode
@@ -108,6 +109,7 @@ namespace Presentation.ViewModel
             MenuLinks();
             ToggleCommand = new RelayCommand(ToggleMenu);
             ToggleThemeCommand = new RelayCommand(ToggleTheme);
+            UpdateTheme();
         }
 
       
@@ -130,12 +132,18 @@ namespace Presentation.ViewModel
         private void ToggleTheme()
         {
             IsDarkMode = IsDarkMode ? true : false;
-
+            Properties.Settings.Default.IsDark = IsDarkMode;
+            Properties.Settings.Default.Save();
             UpdateTheme();
         }
 
         private void UpdateTheme()
         {
+            if (Properties.Settings.Default.IsDark)
+            {
+                IsDarkMode = true;
+            }
+
             PaletteHelper paletteHelper = new PaletteHelper();
             var theme = paletteHelper.GetTheme();
             theme.SetBaseTheme(IsDarkMode ? BaseTheme.Dark : BaseTheme.Light);

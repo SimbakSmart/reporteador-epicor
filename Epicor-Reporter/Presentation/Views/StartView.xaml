@@ -8,10 +8,10 @@
         xmlns:mv="clr-namespace:Presentation.ViewModel"
         mc:Ignorable="d"
         Style="{StaticResource MaterialDesignWindow}"
-        Title="StartView" Height="450" Width="800"
-        >
-    <!--md:ThemeAssist.Theme="Dark"-->
-    <!--Background="{StaticResource DarkColorBrush}"-->
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen"
+        Title="Reporteador de Epicor" Height="450" Width="800">
+    
     <Window.DataContext>
         <mv:StartViewModel/>
     </Window.DataContext>
@@ -33,55 +33,61 @@
                             DockPanel.Dock="Top"
                             HorizontalAlignment="Right" />
 
-                        <!--Logo Smart-->
-                        <!--<StackPanel DockPanel.Dock="Top">
-                            <Image Source="/Images/smart.png" Width="100" Height="100" />
-                        </StackPanel>-->
 
                         <StackPanel>
 
-                               <!--Theme Color-->
-                                <!--<ToggleButton
-                                  HorizontalAlignment="Right"
-                                   Margin="6"
-                                  IsChecked="{Binding IsDarkMode, Mode=TwoWay}"
-                                  Content="Light Mode"
-                                  Command="{Binding ToggleThemeCommand}"/>-->
-                            <!--Theme Color-->
-
                             <md:Card DockPanel.Dock="Top">
                                 <StackPanel>
+                                    <!--Logo-->
                                     <Image Source="/Images/smart.png" Width="100" Height="100" />
 
+                                    <!--Theme Color-->
+                                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                                        <TextBlock
+                                      Style="{StaticResource MenuItemsStyle}"
+                                      Text="Selección de tema"
+                                            VerticalAlignment="Center" Margin="5"/>
                                     <ToggleButton
-   HorizontalAlignment="Right"
-    Margin="6"
-   IsChecked="{Binding IsDarkMode, Mode=TwoWay}"
-   Command="{Binding ToggleThemeCommand}"/>
+                                   HorizontalAlignment="Right"
+                                   VerticalAlignment="Center" 
+                                    Margin="6"
+                                   IsChecked="{Binding IsDarkMode, Mode=TwoWay}"
+                                   Command="{Binding ToggleThemeCommand}"/>
+                                        <!--Theme Color-->
+                                    </StackPanel>
 
                                 </StackPanel>
                             </md:Card>
-
-                                <!--Menu Links-->
+                            <Border Height="2" Background="LightGray" Margin="0,5,0,5"/>
+                            <!--Menu Links-->
                             <ListView x:Name="ListViewMenu" 
-                                  
+                         Margin="0 5"         
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                       ItemsSource="{Binding MenuOptions}"
                       SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
                       SelectionMode="Single">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
+                                        <!--<md:Card Width="200">
+                                            <StackPanel Orientation="Horizontal">
+                                                <md:PackIcon Kind="{Binding Icon}" Height="25" Width="25" Margin="0 10"/>
+                                                <TextBlock Text="{Binding Text}" 
+                                                       Style="{StaticResource MenuItemsStyle}"
+                                                       VerticalAlignment="Center" Margin="20 10"/>
+                                            </StackPanel>
+                                        </md:Card>-->
                                         <StackPanel Orientation="Horizontal">
-                                            <md:PackIcon Kind="{Binding Icon}" Height="25" Width="25" Margin="10"/>
+                                            <md:PackIcon Kind="{Binding Icon}" Height="25" Width="25" Margin="0 10"/>
                                             <TextBlock Text="{Binding Text}" 
                                                        Style="{StaticResource MenuItemsStyle}"
                                                        VerticalAlignment="Center" Margin="20 10"/>
-                                            <Border Height="1"  Margin="0,5,0,5"/>
+                                            <Border Height="3" Background="LightGray" Margin="0,5,0,5"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </ListView.ItemTemplate>
                             </ListView>
                             <!--Menu Links-->
+                            <Border Height="2" Background="LightGray" Margin="0,5,0,5"/>
 
                         </StackPanel>
 
@@ -120,8 +126,6 @@
                     <!--Content Control-->
                     <Grid Grid.Row="1">
                         <StackPanel>
-                           
-                            
                             <ContentControl Margin="10"
                                     Content="{Binding SelectedUserControl}"/>
                         </StackPanel>
