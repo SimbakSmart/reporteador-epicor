@@ -7,11 +7,11 @@
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:mv="clr-namespace:Presentation.ViewModel"
         mc:Ignorable="d"
+        Style="{StaticResource MaterialDesignWindow}"
         Title="StartView" Height="450" Width="800"
-        Background="{StaticResource DarkColorBrush}"
-        md:ThemeAssist.Theme="Dark">
-
-
+        >
+    <!--md:ThemeAssist.Theme="Dark"-->
+    <!--Background="{StaticResource DarkColorBrush}"-->
     <Window.DataContext>
         <mv:StartViewModel/>
     </Window.DataContext>
@@ -25,7 +25,7 @@
 
                 <!--LeftDrawerContent-->
                 <md:DrawerHost.LeftDrawerContent>
-                    <DockPanel MinWidth="212" Background="White">
+                    <DockPanel MinWidth="212" >
 
                         <ToggleButton  Style="{StaticResource MaterialDesignHamburgerToggleButton}" 
                             IsChecked="{Binding IsOpen,Mode=TwoWay}"
@@ -34,12 +34,35 @@
                             HorizontalAlignment="Right" />
 
                         <!--Logo Smart-->
-                        <StackPanel DockPanel.Dock="Top">
+                        <!--<StackPanel DockPanel.Dock="Top">
                             <Image Source="/Images/smart.png" Width="100" Height="100" />
-                        </StackPanel>
+                        </StackPanel>-->
 
-                        <StackPanel Background="{StaticResource DarkColorBrush}">
-                            <!--Menu Links-->
+                        <StackPanel>
+
+                               <!--Theme Color-->
+                                <!--<ToggleButton
+                                  HorizontalAlignment="Right"
+                                   Margin="6"
+                                  IsChecked="{Binding IsDarkMode, Mode=TwoWay}"
+                                  Content="Light Mode"
+                                  Command="{Binding ToggleThemeCommand}"/>-->
+                            <!--Theme Color-->
+
+                            <md:Card DockPanel.Dock="Top">
+                                <StackPanel>
+                                    <Image Source="/Images/smart.png" Width="100" Height="100" />
+
+                                    <ToggleButton
+   HorizontalAlignment="Right"
+    Margin="6"
+   IsChecked="{Binding IsDarkMode, Mode=TwoWay}"
+   Command="{Binding ToggleThemeCommand}"/>
+
+                                </StackPanel>
+                            </md:Card>
+
+                                <!--Menu Links-->
                             <ListView x:Name="ListViewMenu" 
                                   
                       ScrollViewer.HorizontalScrollBarVisibility="Disabled"
@@ -96,8 +119,13 @@
 
                     <!--Content Control-->
                     <Grid Grid.Row="1">
-                        <ContentControl Margin="10"
+                        <StackPanel>
+                           
+                            
+                            <ContentControl Margin="10"
                                     Content="{Binding SelectedUserControl}"/>
+                        </StackPanel>
+                        
                     </Grid>
 
                 </DockPanel>

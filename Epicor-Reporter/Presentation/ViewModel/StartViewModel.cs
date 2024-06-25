@@ -2,6 +2,7 @@
 
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using MaterialDesignThemes.Wpf;
 using Presentation.UC;
 using System;
 using System.Collections.ObjectModel;
@@ -12,6 +13,20 @@ namespace Presentation.ViewModel
 {
     public  class StartViewModel:ViewModelBase
     {
+
+        public bool isDarkMode;
+
+        public bool IsDarkMode
+        {
+            get { return isDarkMode; }
+            set
+            {
+                isDarkMode = value;
+                RaisePropertyChanged(nameof(IsDarkMode));
+            }
+        }
+
+
         private bool isOpen;
         public bool IsOpen
         {
@@ -82,19 +97,24 @@ namespace Presentation.ViewModel
 
 
         public ICommand ToggleCommand { get; private set; }
+        public ICommand ToggleThemeCommand { get; private set; }
 
         public StartViewModel()
         {
-            IsOpen = false;
+          
             Title = "ANÁLISIS DE REPORTES";
+            IsDarkMode = false;
+            IsOpen = false;
             MenuLinks();
             ToggleCommand = new RelayCommand(ToggleMenu);
+            ToggleThemeCommand = new RelayCommand(ToggleTheme);
         }
 
       
         private void ToggleMenu()
         {
             IsOpen = IsOpen ? true : false;
+
         }
 
         private void MenuLinks()
@@ -105,6 +125,21 @@ namespace Presentation.ViewModel
                new MenuItem("Reporte de waiting for parts","BriefcaseVariantOutline","REPORTE DE WAITING FOR PARTS",typeof(ReportForPartsView)),
             };
             SelectedItem = MenuOptions[0];
+        }
+
+        private void ToggleTheme()
+        {
+            IsDarkMode = IsDarkMode ? true : false;
+
+            UpdateTheme();
+        }
+
+        private void UpdateTheme()
+        {
+            PaletteHelper paletteHelper = new PaletteHelper();
+            var theme = paletteHelper.GetTheme();
+            theme.SetBaseTheme(IsDarkMode ? BaseTheme.Dark : BaseTheme.Light);
+            paletteHelper.SetTheme(theme);
         }
 
     }
