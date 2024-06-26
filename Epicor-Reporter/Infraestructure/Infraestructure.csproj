@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,8 +42,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Data\SupportCallInQueues_SQL.cs" />
+    <Compile Include="Data\CallInQueues_SQL.cs" />
+    <Compile Include="Data\DBContext.cs" />
+    <Compile Include="Interfaces\ICallInQueuesProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CallInQueuesProvider.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

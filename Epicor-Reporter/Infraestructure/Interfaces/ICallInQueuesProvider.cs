@@ -1,0 +1,15 @@
+﻿
+
+using Core.Models;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+
+namespace Infraestructure.Interfaces
+{
+    public  interface ICallInQueuesProvider
+    {
+        Task<int> FetchCountAsync();
+
+        Task<List<CallInQueues>> FetchAllAsync(int pageSize = 20, int startRow = 0);
+    }
+}

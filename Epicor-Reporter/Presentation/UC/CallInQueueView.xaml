@@ -3,10 +3,154 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:vm="clr-namespace:Presentation.ViewModel"
+             xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:ge="clr-namespace:SourceChord.GridExtra;assembly=GridExtra.Wpf"
              xmlns:local="clr-namespace:Presentation.UC"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.DataContext>
+        <vm:CallInQueueViewModel />
+    </UserControl.DataContext>
+    
+    <!--<Grid>
+        <StackPanel Margin="25">
+            <ListView ItemsSource="{Binding CallItemList}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding SupporCallID}" />
+                            <TextBlock Text="{Binding Number}" />
+                            <TextBlock Text="{Binding Types}" />
+                            <TextBlock Text="{Binding Summary}" />
+                            <TextBlock Text="{Binding Queue}" />
+                            <TextBlock Text="{Binding Status}" />
+                            <TextBlock Text="{Binding OpenDate}" />
+                            <TextBlock Text="{Binding DueDate}" />
+                            <TextBlock Text="{Binding StartDate}" />
+                            <TextBlock Text="{Binding DateAssignTo}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </StackPanel>
+    </Grid>-->
+
     <Grid>
-        <TextBlock Text="Call ini QUeue"  HorizontalAlignment="Center" VerticalAlignment="Center" />
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+            <md:Card Padding="5"
+                          md:ElevationAssist.Elevation="Dp4">
+
+                <ge:ResponsiveGrid>
+                    <!--Container Right-->
+                    <Border ge:ResponsiveGrid.XS="12"  ge:ResponsiveGrid.SM="6" >
+                        <StackPanel HorizontalAlignment="Left"  Orientation="Horizontal">
+                            
+                            <!--SeachBox-->
+                            <TextBox 
+                                Width="300"
+                                Padding="6"
+                                 md:HintAssist.Hint="Busqueda..."
+                                 md:HintAssist.IsFloating="True" 
+                                Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                HorizontalAlignment="Center"
+                                Margin="5"
+                                />
+                            <!--SeachBox-->
+
+
+                                 <!--Button Search--> 
+                                  <Button 
+                                     Style="{StaticResource MaterialDesignPaperSecondaryLightButton}"
+                                     ToolTip="Presinar para busqueda"
+                                     HorizontalAlignment="Center"
+                                     Margin="5">
+                                <md:PackIcon Kind="Magnify" Width="25" Height="25" />
+                                </Button>
+                               <!--Button Clear-->
+                               <Button 
+                                 Style="{StaticResource MaterialDesignPaperSecondaryLightButton}"
+                                 ToolTip="Presinar para busqueda"
+                                 HorizontalAlignment="Center"
+                                 Margin="5">
+                                <md:PackIcon Kind="Broom" Width="25" Height="25" />
+                            </Button>
+
+
+                        </StackPanel>
+                        <!--Container Right-->
+                    </Border>
+
+                    <Border ge:ResponsiveGrid.XS="12"  ge:ResponsiveGrid.SM="6" >
+                        <StackPanel HorizontalAlignment="Right"  Orientation="Horizontal">
+
+                            <TextBlock Text="{Binding TotalRecords, StringFormat='Total Records: {0:n0}'}" 
+                                      Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                   HorizontalAlignment="Center"
+                                    Margin="5" />
+
+                        </StackPanel>
+                    </Border>
+
+                    <Border ge:ResponsiveGrid.XS="12"  ge:ResponsiveGrid.SM="12" >
+                         <StackPanel Margin="5">
+                            <DataGrid ItemsSource="{Binding CallItemList}" Height="800" />
+
+                            <StackPanel  Orientation="Horizontal" HorizontalAlignment="Right">
+                                <Button 
+                                    Width="75"
+                                    Command="{Binding MoveBackCommand}"
+                                    Style="{StaticResource MaterialDesignPaperSecondaryLightButton}"
+                                    HorizontalAlignment="Center"
+                                    Margin="5">
+                                    <StackPanel Orientation="Horizontal">
+                                        <md:PackIcon Kind="ArrowLeft" Width="25" Height="25" />
+                                        <TextBlock
+                                           Style="{StaticResource MaterialDesignBody1TextBlock}"
+                                           Text="Anterior" />
+                                        
+                                    </StackPanel>
+                                </Button>
+                                <Button 
+                                    Width="117"
+                                    Command="{Binding MoveNextCommand}"
+                                    Style="{StaticResource MaterialDesignPaperSecondaryLightButton}"
+                                    HorizontalAlignment="Center"
+                                    Margin="5">
+                                    <StackPanel Orientation="Horizontal">
+                                       
+                                        <TextBlock
+                                          Style="{StaticResource MaterialDesignBody1TextBlock}"
+                                          Text="Siguiente" />
+                                        <md:PackIcon Kind="ArrowRight" Width="25" Height="25" />
+                                    </StackPanel>
+                                   
+                                </Button>
+                                <TextBlock Text="Pagina "
+                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                           HorizontalAlignment="Center" Margin="5" />
+                                <TextBlock Text="0" Margin="5" 
+                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}" />
+                                <TextBlock Text="De " 
+                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                           HorizontalAlignment="Center" Margin="5" />
+                                <TextBlock Text="50" 
+                                             Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                            HorizontalAlignment="Center" Margin="5" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+
+
+
+                </ge:ResponsiveGrid>
+
+            </md:Card>
+        </ScrollViewer>
     </Grid>
+
+
 </UserControl>
