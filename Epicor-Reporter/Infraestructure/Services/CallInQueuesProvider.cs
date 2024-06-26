@@ -19,12 +19,12 @@ namespace Infraestructure.Services
 
         
 
-        public async Task<int> FetchCountAsync()
+        public async Task<int> FetchCountAsync( string queryParams = "")
         {
             int count = 0;
             try
             {
-                query = CallInQueues_SQL.TotalCount();
+                query = CallInQueues_SQL.TotalCount(queryParams);
 
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {
@@ -47,12 +47,12 @@ namespace Infraestructure.Services
             }
         }
 
-        public async Task<List<CallInQueues>> FetchAllAsync(int pageSize = 20, int startRow = 0)
+        public async Task<List<CallInQueues>> FetchAllAsync(int pageSize = 50, int startRow = 0, string queryParams = "")
         {
             List<CallInQueues> list = new List<CallInQueues>();
             try
             {
-                query = CallInQueues_SQL.Query();
+                query = CallInQueues_SQL.Query(pageSize,startRow,queryParams);
 
                 using (SqlConnection con = new SqlConnection(connectionString))
                 {

@@ -9,7 +9,7 @@ namespace Infraestructure.Data
        private static string query = string.Empty;
 
 
-        public static string TotalCount() 
+        public static string TotalCount( string queryParams = "") 
         {
             query = @"
                SELECT COUNT(*) AS TotalRecords
@@ -49,16 +49,16 @@ namespace Infraestructure.Data
                         ValueListEntry AS Pri ON Pri.ValueListEntryID = SC.PriorityID
                     WHERE 
                         Sc.Closed = 0  
-                        AND Sc.AssignToQueueID IS NOT NULL
+                        AND Sc.AssignToQueueID IS NOT NULL "+queryParams+@" 
                 ) AS Subquery;
              ";
             return query; 
         }
 
-        public static string Query(int pageSize = 20, int startRow = 0)
+        public static string Query(int pageSize = 50, int startRow = 0, string queryParams = "")
         {
             query = @"                 
-                SELECT TOP 25
+                SELECT 
                     Sc.SupportCallID,
                     Sc.Number,
                     CASE 
@@ -89,7 +89,7 @@ namespace Infraestructure.Data
                     SupportCallStatus AS Status WITH (NOLOCK) ON Status.SupportCallStatusID = Sc.StatusID
                 LEFT JOIN  SupportCallSLAStatus Scs ON Scs.SupportCallID = Sc.SupportCallID
                 LEFT JOIN ValueListEntry AS Pri ON Pri.ValueListEntryID = SC.PriorityID
-	                WHERE Sc.Closed=0  AND Sc.AssignToQueueID IS NOT NULL
+	                WHERE Sc.Closed=0  AND Sc.AssignToQueueID IS NOT NULL "+queryParams+@"  ORDER BY  DateAssignedTo DESC
                   ";
             return query;
         }

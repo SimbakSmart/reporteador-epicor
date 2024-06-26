@@ -159,6 +159,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Helpers\AsyncRelayCommand.cs" />
     <Compile Include="Helpers\MenuItem.cs" />
     <Compile Include="UC\CallInQueueView.xaml.cs">
       <DependentUpon>CallInQueueView.xaml</DependentUpon>

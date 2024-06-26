@@ -4,10 +4,12 @@ using Core.Models;
 using GalaSoft.MvvmLight;
 using Infraestructure.Interfaces;
 using Infraestructure.Services;
+using Presentation.Helpers;
+using System;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
-using System;
 using System.Windows;
+using System.Windows.Input;
 
 namespace Presentation.ViewModel
 {
@@ -41,10 +43,44 @@ namespace Presentation.ViewModel
             }
         }
 
+        private bool isLoading;
+
+        public bool IsLoading
+        {
+            get { return isLoading; }
+
+            set
+            {
+                isLoading = value;
+                RaisePropertyChanged(nameof(IsLoading));
+            }
+        }
+
+
+        private  string searchTerm;
+
+        public string SearchTerm
+        {
+            get { return searchTerm; }
+
+            set
+            {
+                searchTerm = value;
+                RaisePropertyChanged(nameof(SearchTerm));
+            }
+        }
+
+
+
+        public ICommand SearchCommand { get; private set; }
+        public ICommand RefreshCommand { get; private set; }
         public CallInQueueViewModel()
         {
-            TotalRecords = 669;
+            TotalRecords = 0;
+            IsLoading = false;
             service = new CallInQueuesProvider();
+            SearchCommand = new AsyncRelayCommand(SearchAsync);
+            RefreshCommand = new AsyncRelayCommand(RefrehAsync);
 
             Task.Run(async() => 
             { 
@@ -56,7 +92,8 @@ namespace Presentation.ViewModel
         {
             try
             {
-                var list = await service.FetchAllAsync();
+                IsLoading = true;
+                var list = await service.FetchAllAsync(50, 0, string.Empty);
                 CallItemList = new ObservableCollection<CallInQueues>(list);
 
                 TotalRecords = await service.FetchCountAsync();
@@ -64,6 +101,48 @@ namespace Presentation.ViewModel
             catch (Exception ex)
             {
                   MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                IsLoading=false;
+            }
+        }
+
+        public async Task SearchAsync()
+        {
+            try
+            {
+                IsLoading = true;
+                string searchBy = $" AND Sc.Number LIKE '%{SearchTerm}%'  OR Que.Name LIKE '%{SearchTerm}%' ";
+                var list = await service.FetchAllAsync(50,0,searchBy);
+                TotalRecords = await service.FetchCountAsync(searchBy);
+                CallItemList = new ObservableCollection<CallInQueues>(list);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+
+        public async Task RefrehAsync()
+        {
+            try
+            {
+                await LoadDataAsync();
+                SearchTerm = string.Empty;  
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                IsLoading = false;
             }
         }
     }

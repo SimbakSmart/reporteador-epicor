@@ -14,29 +14,6 @@
         <vm:CallInQueueViewModel />
     </UserControl.DataContext>
     
-    <!--<Grid>
-        <StackPanel Margin="25">
-            <ListView ItemsSource="{Binding CallItemList}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding SupporCallID}" />
-                            <TextBlock Text="{Binding Number}" />
-                            <TextBlock Text="{Binding Types}" />
-                            <TextBlock Text="{Binding Summary}" />
-                            <TextBlock Text="{Binding Queue}" />
-                            <TextBlock Text="{Binding Status}" />
-                            <TextBlock Text="{Binding OpenDate}" />
-                            <TextBlock Text="{Binding DueDate}" />
-                            <TextBlock Text="{Binding StartDate}" />
-                            <TextBlock Text="{Binding DateAssignTo}" />
-                        </StackPanel>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-
-        </StackPanel>
-    </Grid>-->
 
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -51,6 +28,7 @@
                             
                             <!--SeachBox-->
                             <TextBox 
+                                Text="{Binding SearchTerm}"
                                 Width="300"
                                 Padding="6"
                                  md:HintAssist.Hint="Busqueda..."
@@ -64,14 +42,36 @@
 
                                  <!--Button Search--> 
                                   <Button 
+                                     Command="{Binding SearchCommand}"
                                      Style="{StaticResource MaterialDesignPaperSecondaryLightButton}"
                                      ToolTip="Presinar para busqueda"
                                      HorizontalAlignment="Center"
                                      Margin="5">
                                 <md:PackIcon Kind="Magnify" Width="25" Height="25" />
                                 </Button>
-                               <!--Button Clear-->
+
+
+
+                            <DatePicker
+                              Width="150"
+                              Padding="6"
+                              Language="es-ES"
+                              md:HintAssist.Hint="Fecha Consulta..."
+                              Style="{StaticResource MaterialDesignOutlinedDatePicker}" 
+                                HorizontalAlignment="Center"
+                               Margin="5" />
+                            <!--Button Search-->
+                                  <Button 
+                                 Style="{StaticResource MaterialDesignPaperSecondaryLightButton}"
+                                 ToolTip="Presinar para busqueda fecha"
+                                 HorizontalAlignment="Center"
+                                 Margin="5">
+                                <md:PackIcon Kind="Magnify" Width="25" Height="25" />
+                            </Button>
+
+                            <!--Button Clear-->
                                <Button 
+                                  Command="{Binding RefreshCommand}" 
                                  Style="{StaticResource MaterialDesignPaperSecondaryLightButton}"
                                  ToolTip="Presinar para busqueda"
                                  HorizontalAlignment="Center"
@@ -87,10 +87,21 @@
                     <Border ge:ResponsiveGrid.XS="12"  ge:ResponsiveGrid.SM="6" >
                         <StackPanel HorizontalAlignment="Right"  Orientation="Horizontal">
 
+                            
+                            <!--Button Clear-->
+                            <!--<Button 
+                             Style="{StaticResource MaterialDesignPaperSecondaryLightButton}"
+                             ToolTip="Presinar para busqueda"
+                             HorizontalAlignment="Center"
+                             Margin="5">
+                                <md:PackIcon Kind="Broom" Width="25" Height="25" />
+                            </Button>-->
+
                             <TextBlock Text="{Binding TotalRecords, StringFormat='Total Records: {0:n0}'}" 
-                                      Style="{StaticResource MaterialDesignHeadline6TextBlock}"
-                                   HorizontalAlignment="Center"
-                                    Margin="5" />
+                               Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                            HorizontalAlignment="Center"
+                             Margin="5" />
+
 
                         </StackPanel>
                     </Border>
@@ -99,46 +110,33 @@
                          <StackPanel Margin="5">
                             <DataGrid ItemsSource="{Binding CallItemList}" Height="800" />
 
-                            <StackPanel  Orientation="Horizontal" HorizontalAlignment="Right">
+                            <StackPanel  Orientation="Horizontal" HorizontalAlignment="Left">
                                 <Button 
-                                    Width="75"
+                                    Width="55"
                                     Command="{Binding MoveBackCommand}"
                                     Style="{StaticResource MaterialDesignPaperSecondaryLightButton}"
                                     HorizontalAlignment="Center"
                                     Margin="5">
-                                    <StackPanel Orientation="Horizontal">
-                                        <md:PackIcon Kind="ArrowLeft" Width="25" Height="25" />
-                                        <TextBlock
-                                           Style="{StaticResource MaterialDesignBody1TextBlock}"
-                                           Text="Anterior" />
-                                        
-                                    </StackPanel>
+                                    <md:PackIcon Kind="ArrowLeft" Width="25" Height="25" />
                                 </Button>
                                 <Button 
-                                    Width="117"
+                                    Width="55"
                                     Command="{Binding MoveNextCommand}"
                                     Style="{StaticResource MaterialDesignPaperSecondaryLightButton}"
                                     HorizontalAlignment="Center"
                                     Margin="5">
-                                    <StackPanel Orientation="Horizontal">
-                                       
-                                        <TextBlock
-                                          Style="{StaticResource MaterialDesignBody1TextBlock}"
-                                          Text="Siguiente" />
-                                        <md:PackIcon Kind="ArrowRight" Width="25" Height="25" />
-                                    </StackPanel>
-                                   
+                                    <md:PackIcon Kind="ArrowRight" Width="25" Height="25" />
                                 </Button>
                                 <TextBlock Text="Pagina "
-                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                           Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                                            HorizontalAlignment="Center" Margin="5" />
                                 <TextBlock Text="0" Margin="5" 
-                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}" />
+                                           Style="{StaticResource MaterialDesignHeadline6TextBlock}" />
                                 <TextBlock Text="De " 
-                                           Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                           Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                                            HorizontalAlignment="Center" Margin="5" />
                                 <TextBlock Text="50" 
-                                             Style="{StaticResource MaterialDesignSubtitle1TextBlock}"
+                                             Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                                             HorizontalAlignment="Center" Margin="5" />
                             </StackPanel>
                         </StackPanel>
@@ -150,6 +148,40 @@
 
             </md:Card>
         </ScrollViewer>
+
+
+        <Button
+            Margin="0 0 50 35"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Bottom"
+            Style="{StaticResource MaterialDesignFloatingActionDarkButton}"
+           ToolTip="MaterialDesignFloatingActionButton">
+            <md:PackIcon
+          Width="30"
+          Height="30"
+          Kind="FilterSettingsOutline" />
+        </Button>
+
+        <md:Card   
+            Opacity="0.8"
+       Visibility="{Binding IsLoading,Mode=TwoWay,Converter={StaticResource BooleanToVisibilityConverter}}">
+
+            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
+
+                <ProgressBar
+    Margin="0 100 0 0"
+   IsIndeterminate="True"
+   Width="50"
+   Height="50"
+   Style="{StaticResource MaterialDesignCircularProgressBar}"
+   Value="50" />
+                <TextBlock Text="Cargando..." />
+            </StackPanel>
+
+        </md:Card>
+
+
+
     </Grid>
 
 
