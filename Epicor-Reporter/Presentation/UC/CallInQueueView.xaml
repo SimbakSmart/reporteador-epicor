@@ -13,7 +13,20 @@
     <UserControl.DataContext>
         <vm:CallInQueueViewModel />
     </UserControl.DataContext>
-    
+
+    <UserControl.Resources>
+        <Style x:Key="CustomDataGridHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
+            <Setter Property="Background" Value="LightBlue" />
+            <!-- Cambia el color de fondo del encabezado a azul -->
+            <Setter Property="Foreground" Value="White" />
+            <!-- Cambia el color del texto del encabezado a blanco -->
+            <Setter Property="BorderBrush" Value="Gray" />
+            <!-- Cambia el color del borde del encabezado si lo deseas -->
+            <Setter Property="BorderThickness" Value="1" />
+            <!-- Ajusta el grosor del borde del encabezado si lo deseas -->
+        </Style>
+    </UserControl.Resources>
+
 
     <Grid>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -108,7 +121,18 @@
 
                     <Border ge:ResponsiveGrid.XS="12"  ge:ResponsiveGrid.SM="12" >
                          <StackPanel Margin="5">
-                            <DataGrid ItemsSource="{Binding CallItemList}" Height="800" />
+                            <!--<DataGrid ItemsSource="{Binding CallItemList}" Height="800" />-->
+
+
+                            <DataGrid ItemsSource="{Binding CallItemList}"
+          AutoGenerateColumns="True" Height="800">
+                                <DataGrid.ColumnHeaderStyle>
+                                    <Style TargetType="{x:Type DataGridColumnHeader}"
+               BasedOn="{StaticResource CustomDataGridHeaderStyle}" />
+                                </DataGrid.ColumnHeaderStyle>
+                                <!-- Aquí van las columnas del DataGrid -->
+                            </DataGrid>
+
 
                             <StackPanel  Orientation="Horizontal" HorizontalAlignment="Left">
                                 <Button 
