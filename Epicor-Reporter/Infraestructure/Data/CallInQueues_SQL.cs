@@ -89,7 +89,7 @@ namespace Infraestructure.Data
                     SupportCallStatus AS Status WITH (NOLOCK) ON Status.SupportCallStatusID = Sc.StatusID
                 LEFT JOIN  SupportCallSLAStatus Scs ON Scs.SupportCallID = Sc.SupportCallID
                 LEFT JOIN ValueListEntry AS Pri ON Pri.ValueListEntryID = SC.PriorityID
-	                WHERE Sc.Closed=0  AND Sc.AssignToQueueID IS NOT NULL "+queryParams+@"  ORDER BY  DateAssignedTo DESC
+	                WHERE Sc.Closed=0  AND Sc.AssignToQueueID IS NOT NULL "+queryParams+ @"  ORDER BY  Sc.OpenDate DESC
                   ";
             return query;
         }

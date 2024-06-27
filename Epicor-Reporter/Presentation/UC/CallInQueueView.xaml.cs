@@ -1,15 +1,16 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 
 namespace Presentation.UC
 {
-    /// <summary>
-    /// Interaction logic for CallInQueueView.xaml
-    /// </summary>
+    
     public partial class CallInQueueView : UserControl
     {
         public CallInQueueView()
         {
             InitializeComponent();
+            DatePickerOpenDate.BlackoutDates.Add(new CalendarDateRange(DateTime.Today.AddDays(1), DateTime.MaxValue));
         }
+
     }
 }

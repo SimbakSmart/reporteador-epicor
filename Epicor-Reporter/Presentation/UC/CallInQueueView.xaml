@@ -14,18 +14,20 @@
         <vm:CallInQueueViewModel />
     </UserControl.DataContext>
 
-    <UserControl.Resources>
+    <!--<UserControl.Resources>
         <Style x:Key="CustomDataGridHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
-            <Setter Property="Background" Value="LightBlue" />
-            <!-- Cambia el color de fondo del encabezado a azul -->
+            <Setter Property="Background" Value="#1B5E20" />
+            --><!-- Cambia el color de fondo del encabezado a azul --><!--
             <Setter Property="Foreground" Value="White" />
-            <!-- Cambia el color del texto del encabezado a blanco -->
+            --><!-- Cambia el color del texto del encabezado a blanco --><!--
             <Setter Property="BorderBrush" Value="Gray" />
-            <!-- Cambia el color del borde del encabezado si lo deseas -->
+            --><!-- Cambia el color del borde del encabezado si lo deseas --><!--
             <Setter Property="BorderThickness" Value="1" />
-            <!-- Ajusta el grosor del borde del encabezado si lo deseas -->
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="FontWeight" Value="Bold" />
+            --><!-- Ajusta el grosor del borde del encabezado si lo deseas --><!--
         </Style>
-    </UserControl.Resources>
+    </UserControl.Resources>-->
 
 
     <Grid>
@@ -66,15 +68,18 @@
 
 
                             <DatePicker
+                              x:Name="DatePickerOpenDate"
                               Width="150"
                               Padding="6"
                               Language="es-ES"
+                              Text="{Binding SearchByOpenDate}"
                               md:HintAssist.Hint="Fecha Consulta..."
                               Style="{StaticResource MaterialDesignOutlinedDatePicker}" 
                                 HorizontalAlignment="Center"
                                Margin="5" />
                             <!--Button Search-->
                                   <Button 
+                                   Command="{Binding SearchByDateCommand}" 
                                  Style="{StaticResource MaterialDesignPaperSecondaryLightButton}"
                                  ToolTip="Presinar para busqueda fecha"
                                  HorizontalAlignment="Center"
@@ -123,14 +128,30 @@
                          <StackPanel Margin="5">
                             <!--<DataGrid ItemsSource="{Binding CallItemList}" Height="800" />-->
 
-
+                            <!--AlternatingRowBackground="#FFC107"-->
                             <DataGrid ItemsSource="{Binding CallItemList}"
-          AutoGenerateColumns="True" Height="800">
-                                <DataGrid.ColumnHeaderStyle>
+                                  AutoGenerateColumns="False" Height="800"
+                                      HorizontalAlignment="Stretch" 
+                                      VerticalAlignment="Stretch"
+                                      >
+                                 <DataGrid.ColumnHeaderStyle>
                                     <Style TargetType="{x:Type DataGridColumnHeader}"
-               BasedOn="{StaticResource CustomDataGridHeaderStyle}" />
+                                    BasedOn="{StaticResource CustomDataGridHeaderStyle}" />
                                 </DataGrid.ColumnHeaderStyle>
-                                <!-- Aquí van las columnas del DataGrid -->
+                                <DataGrid.Columns>
+                                    <!--<DataGridTextColumn Header="Support Call ID" Binding="{Binding SupporCallID}" />-->
+                                    <DataGridTextColumn Header="Number" Binding="{Binding Number}" />
+                                    <DataGridTextColumn Header="Types" Binding="{Binding Types}" />
+                                    <DataGridTextColumn Header="Summary" Binding="{Binding Summary}" />
+                                    <DataGridTextColumn Header="Queue" Binding="{Binding Queue}" />
+                                    <DataGridTextColumn Header="Status" Binding="{Binding Status}" />
+                                    <DataGridTextColumn Header="Priority" Binding="{Binding Priority}" />
+                                    <DataGridTextColumn Header="Open Date" Binding="{Binding OpenDate}" />
+                                    <DataGridTextColumn Header="Due Date" Binding="{Binding DueDate}" />
+                                    <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate}" />
+                                    <DataGridTextColumn Header="Date Assign To" Binding="{Binding DateAssignTo}" />
+                                    
+                                </DataGrid.Columns>
                             </DataGrid>
 
 

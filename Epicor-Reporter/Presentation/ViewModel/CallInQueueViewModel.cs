@@ -70,17 +70,36 @@ namespace Presentation.ViewModel
             }
         }
 
+        private DateTime? searchByOpenDate;
+
+        public DateTime? SearchByOpenDate
+        {
+            get { return searchByOpenDate; }
+
+            set
+            {
+                searchByOpenDate = value;
+                RaisePropertyChanged(nameof(SearchByOpenDate));
+            }
+        }
+
+
 
 
         public ICommand SearchCommand { get; private set; }
         public ICommand RefreshCommand { get; private set; }
+
+        public ICommand SearchByDateCommand { get; private set; }
         public CallInQueueViewModel()
         {
             TotalRecords = 0;
             IsLoading = false;
+            SearchByOpenDate = DateTime.UtcNow;
             service = new CallInQueuesProvider();
             SearchCommand = new AsyncRelayCommand(SearchAsync);
             RefreshCommand = new AsyncRelayCommand(RefrehAsync);
+            SearchByDateCommand = new AsyncRelayCommand(SearchByDateAsync);
+
 
             Task.Run(async() => 
             { 
@@ -113,8 +132,33 @@ namespace Presentation.ViewModel
             try
             {
                 IsLoading = true;
-                string searchBy = $" AND Sc.Number LIKE '%{SearchTerm}%'  OR Que.Name LIKE '%{SearchTerm}%' ";
+                string searchBy =  $" AND Sc.Number LIKE '%{SearchTerm}%'  " +
+                                   $" OR Que.Name LIKE '%{SearchTerm}%' " +
+                                   //$" OR  Types LIKE '%{SearchTerm}%' ";
+                                   $" OR  Sc.Summary  LIKE '%{SearchTerm}%' " +
+                                   $" OR  Status.Name LIKE '%{SearchTerm}%' "+
+                                   $" OR  Pri.Description  LIKE '%{SearchTerm}%' ";
                 var list = await service.FetchAllAsync(50,0,searchBy);
+                TotalRecords = await service.FetchCountAsync(searchBy);
+                CallItemList = new ObservableCollection<CallInQueues>(list);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                IsLoading = false;
+            }
+        }
+
+        public async Task SearchByDateAsync()
+        {
+            try
+            {
+                IsLoading = true;
+                string searchBy = $" AND OpenDate = {SearchByOpenDate.Value}";
+                var list = await service.FetchAllAsync(50, 0, searchBy);
                 TotalRecords = await service.FetchCountAsync(searchBy);
                 CallItemList = new ObservableCollection<CallInQueues>(list);
             }
