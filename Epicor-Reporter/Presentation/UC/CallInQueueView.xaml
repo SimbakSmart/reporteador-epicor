@@ -176,12 +176,31 @@
                                            HorizontalAlignment="Center" Margin="5" />
                                 <TextBlock Text="0" Margin="5" 
                                            Style="{StaticResource MaterialDesignHeadline6TextBlock}" />
-                                <TextBlock Text="De " 
+                                <TextBlock Text="de " 
                                            Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                                            HorizontalAlignment="Center" Margin="5" />
                                 <TextBlock Text="50" 
                                              Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                                             HorizontalAlignment="Center" Margin="5" />
+
+                                <ComboBox
+                                  md:HintAssist.Hint="Total Filas"
+                                 Padding="6"
+                                 Style="{StaticResource MaterialDesignOutlinedComboBox}"         
+                                 SelectedValue="{Binding SelectedTotalRows, Mode=TwoWay}"
+                                  SelectedValuePath="Content">
+                                    <ComboBoxItem Content="50"  Tag="50" IsSelected="True" />
+                                    <ComboBoxItem Content="100"  Tag="100" />
+                                    <ComboBoxItem Content="300"  Tag="300" />
+                                    <ComboBoxItem Content="400"  Tag="300" />
+                                    <ComboBoxItem Content="500"  Tag="500" />
+                                    <ComboBoxItem Content="1000"  Tag="1000" />
+                                </ComboBox>
+
+                                <TextBlock Text=" registros por filas " 
+                                   Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                                   HorizontalAlignment="Center" Margin="5" />
+
                             </StackPanel>
                         </StackPanel>
                     </Border>
