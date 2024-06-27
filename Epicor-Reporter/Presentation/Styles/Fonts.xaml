@@ -30,8 +30,8 @@
     </Style>
 
     <Style x:Key="CustomDataGridHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
-        <Setter Property="Background" Value="#1B5E20" />
-        <Setter Property="Foreground" Value="White" />
+        <Setter Property="Background" Value="#f64e51" />
+        <Setter Property="Foreground" Value="#fafafa" />
         <Setter Property="BorderBrush" Value="Gray" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="FontSize" Value="{StaticResource FontSizeLarge}" />

@@ -161,6 +161,11 @@
     </ApplicationDefinition>
     <Compile Include="Helpers\AsyncRelayCommand.cs" />
     <Compile Include="Helpers\MenuItem.cs" />
+    <Compile Include="Helpers\NotifiactionHelper.cs" />
+    <Compile Include="Helpers\ObjectRelayCommand.cs" />
+    <Compile Include="UC\AttributeDialog.xaml.cs">
+      <DependentUpon>AttributeDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UC\CallInQueueView.xaml.cs">
       <DependentUpon>CallInQueueView.xaml</DependentUpon>
     </Compile>
@@ -182,6 +187,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Styles\Fonts.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UC\AttributeDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -2,13 +2,18 @@
 
 using Core.Models;
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using Infraestructure.Interfaces;
 using Infraestructure.Services;
+using Notifications.Wpf;
 using Presentation.Helpers;
+using Presentation.UC;
 using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace Presentation.ViewModel
@@ -83,13 +88,21 @@ namespace Presentation.ViewModel
             }
         }
 
+        private CallInQueues selectedItem;
 
+        public CallInQueues SelectedItem
+        {
+            get { return selectedItem; }
+            set { selectedItem = value; RaisePropertyChanged(nameof(SelectedItem)); }
+        }
 
 
         public ICommand SearchCommand { get; private set; }
         public ICommand RefreshCommand { get; private set; }
 
         public ICommand SearchByDateCommand { get; private set; }
+
+        public ICommand SendIDCommand { get; private set; }
         public CallInQueueViewModel()
         {
             TotalRecords = 0;
@@ -99,12 +112,41 @@ namespace Presentation.ViewModel
             SearchCommand = new AsyncRelayCommand(SearchAsync);
             RefreshCommand = new AsyncRelayCommand(RefrehAsync);
             SearchByDateCommand = new AsyncRelayCommand(SearchByDateAsync);
+            SendIDCommand = new RelayCommand<string>(AttributeDetailsAsync);
+
 
 
             Task.Run(async() => 
             { 
                await LoadDataAsync();
             });
+        }
+
+        private async void AttributeDetailsAsync(string id)
+        {
+
+            try
+            {
+                var queryIdPara = $"  ParentID='{id}' ";
+                var list = await service.FetchAttributesAsync(queryIdPara);
+
+                var dialog = new AttributeDialog(list);
+
+                await MaterialDesignThemes.Wpf.DialogHost.Show(dialog);
+                NotifiactionHelper
+                   .SetMessage("Información", "La búsqueda se ha realizado con éxito.",
+                           NotificationType.Success);
+            }
+            catch (Exception ex)
+            {
+
+                Debug.WriteLine(ex.Message.ToString());
+                NotifiactionHelper
+              .SetMessage("Error", ex.Message.ToString(),
+                         NotificationType.Error);
+            }
+
+
         }
 
         public async Task LoadDataAsync()
@@ -119,7 +161,10 @@ namespace Presentation.ViewModel
             }
             catch (Exception ex)
             {
-                  MessageBox.Show(ex.Message);
+                Debug.WriteLine(ex.Message.ToString());
+                NotifiactionHelper
+              .SetMessage("Error", ex.Message.ToString(),
+                         NotificationType.Error);
             }
             finally
             {
@@ -129,6 +174,16 @@ namespace Presentation.ViewModel
 
         public async Task SearchAsync()
         {
+
+            if (string.IsNullOrEmpty(SearchTerm) ||
+               string.IsNullOrWhiteSpace(SearchTerm))
+            {
+                NotifiactionHelper
+                .SetMessage("No Valido", "Es necesario ingresar un valor de busqueda",
+                           NotificationType.Error);
+                return;
+            }
+
             try
             {
                 IsLoading = true;
@@ -141,10 +196,18 @@ namespace Presentation.ViewModel
                 var list = await service.FetchAllAsync(50,0,searchBy);
                 TotalRecords = await service.FetchCountAsync(searchBy);
                 CallItemList = new ObservableCollection<CallInQueues>(list);
+
+
+                NotifiactionHelper
+                .SetMessage("Información", "La búsqueda se ha realizado con éxito.",
+                        NotificationType.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Debug.WriteLine(ex.Message.ToString());
+                NotifiactionHelper
+              .SetMessage("Error", ex.Message.ToString(),
+                         NotificationType.Error);
             }
             finally
             {
@@ -164,25 +227,33 @@ namespace Presentation.ViewModel
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Debug.WriteLine(ex.Message.ToString());
+                NotifiactionHelper
+              .SetMessage("Error", ex.Message.ToString(),
+                         NotificationType.Error);
             }
             finally
             {
                 IsLoading = false;
             }
         }
-
-
         public async Task RefrehAsync()
         {
             try
             {
                 await LoadDataAsync();
-                SearchTerm = string.Empty;  
+                SearchTerm = string.Empty;
+
+                NotifiactionHelper
+               .SetMessage("Información", "Filtors recargados con exito.",
+                       NotificationType.Success);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                Debug.WriteLine(ex.Message.ToString());
+                NotifiactionHelper
+              .SetMessage("Error", ex.Message.ToString(),
+                         NotificationType.Error);
             }
             finally
             {

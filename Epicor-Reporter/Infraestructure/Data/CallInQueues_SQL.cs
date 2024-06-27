@@ -103,5 +103,21 @@ namespace Infraestructure.Data
                   ";
             return query;
         }
+
+
+        public static string Query(string param)
+        {
+            query = @"                 
+               SELECT 
+            Ac.LabelText AS Attribute ,
+            Av.ValueShortText AS Value
+            FROM AttributeValue AS Av  
+            LEFT JOIN AttributeBoundColumn AS Abc ON Abc.AttributeBoundColumnID = Av.AttributeBoundColumnID
+            LEFT JOIN AttributeColumn AS Ac ON Ac.AttributeColumnID = Abc.AttributeColumnID
+            WHERE " + param + @"
+                  ";
+            return query;
+        }
+       
     }
 }

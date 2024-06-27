@@ -90,5 +90,39 @@ namespace Infraestructure.Services
                 return null;
             }
         }
+
+        public async Task<List<AttributeInQueue>> FetchAttributesAsync(string id)
+        {
+            List<AttributeInQueue> list = new List<AttributeInQueue>();
+            try
+            {
+                query = CallInQueues_SQL.Query(id);
+
+                using (SqlConnection con = new SqlConnection(connectionString))
+                {
+                    await con.OpenAsync();
+                    using (SqlCommand com = new SqlCommand(query, con))
+                    {
+                        using (SqlDataReader reader = await com.ExecuteReaderAsync())
+                        {
+                            while (await reader.ReadAsync())
+                            {
+                                list.Add(new AttributeInQueue.AttributeInQueueBuilder()
+                                              .WithAttribute(reader["Attribute"].ToString())
+                                              .WithValue(reader["Value"].ToString())
+                                             .Build());
+                            }
+                        }
+                    }
+                }
+
+                return list;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message.ToString());
+                return null;
+            }
+        }
     }
 }
