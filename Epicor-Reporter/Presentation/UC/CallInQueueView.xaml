@@ -14,20 +14,6 @@
         <vm:CallInQueueViewModel />
     </UserControl.DataContext>
 
-    <!--<UserControl.Resources>
-        <Style x:Key="CustomDataGridHeaderStyle" TargetType="{x:Type DataGridColumnHeader}">
-            <Setter Property="Background" Value="#1B5E20" />
-            --><!-- Cambia el color de fondo del encabezado a azul --><!--
-            <Setter Property="Foreground" Value="White" />
-            --><!-- Cambia el color del texto del encabezado a blanco --><!--
-            <Setter Property="BorderBrush" Value="Gray" />
-            --><!-- Cambia el color del borde del encabezado si lo deseas --><!--
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="FontSize" Value="16" />
-            <Setter Property="FontWeight" Value="Bold" />
-            --><!-- Ajusta el grosor del borde del encabezado si lo deseas --><!--
-        </Style>
-    </UserControl.Resources>-->
 
 
     <Grid>
@@ -115,10 +101,23 @@
                                 <md:PackIcon Kind="Broom" Width="25" Height="25" />
                             </Button>-->
 
-                            <TextBlock Text="{Binding TotalRecords, StringFormat='Total Records: {0:n0}'}" 
+                            <!--<TextBlock Text="{Binding TotalRecords, StringFormat='Total Records: {0:n0}'}" 
                                Style="{StaticResource MaterialDesignHeadline6TextBlock}"
                             HorizontalAlignment="Center"
-                             Margin="5" />
+                             Margin="5" />-->
+
+                            <md:Card
+                              Width="200"
+                              Padding="8"
+                              md:ElevationAssist.Elevation="Dp5"
+                              Background="{DynamicResource MaterialDesign.Brush.Secondary.Light}"
+                              Foreground="{DynamicResource LightColorBrush}"
+                              UniformCornerRadius="6">
+                                <TextBlock Text="{Binding TotalRecords, StringFormat='Total Records: {0:n0}'}" 
+                                 Style="{StaticResource MaterialDesignHeadline6TextBlock}"
+                              HorizontalAlignment="Center"
+                               Margin="5" />
+                            </md:Card>
 
 
                         </StackPanel>
@@ -150,7 +149,7 @@
                                     <DataGridTextColumn Header="Due Date" Binding="{Binding DueDate}" />
                                     <DataGridTextColumn Header="Start Date" Binding="{Binding StartDate}" />
                                     <DataGridTextColumn Header="Date Assign To" Binding="{Binding DateAssignTo}" />
-                                    
+                                    <DataGridTextColumn Header="Attributes" Binding="{Binding Attribute}" />
                                 </DataGrid.Columns>
                             </DataGrid>
 

@@ -25,8 +25,9 @@ namespace Core.Models
 
         public DateTime DateAssignTo { get; set; }
 
-        public string Priority { get; set; }    
+        public string Priority { get; set; }
 
+        public int Attribute  { get; set; }
 
         public CallInQueues()
         {
@@ -36,7 +37,7 @@ namespace Core.Models
         {
             return $"SupportCallID: {SupporCallID}, Number: {Number}, Types: {Types}, Summary: {Summary}, Queue: {Queue}, " +
                    $"Status: {Status}, OpenDate: {OpenDate}, DueDate: {DueDate}, StartDate: {StartDate}, DateAssignTo: {DateAssignTo}" +
-                   $", Priority : {Priority}  ";
+                   $", Priority : {Priority} , Attributes.{Attribute} ";
         }
 
 
@@ -111,6 +112,12 @@ namespace Core.Models
             public CallInQueuesBuilder WithPriority(string priority)
             {
                 supportCall.Priority = priority;
+                return this;
+            }
+
+            public CallInQueuesBuilder WithAttribute(int attribute)
+            {
+                supportCall.Attribute = attribute;
                 return this;
             }
 

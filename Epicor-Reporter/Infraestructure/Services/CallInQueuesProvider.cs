@@ -75,6 +75,7 @@ namespace Infraestructure.Services
                                     .WithStartDate(Convert.ToDateTime(reader["StartDate"]))
                                     .WithDateAssignTo(Convert.ToDateTime(reader["DateAssignedTo"]))
                                     .WithPriority(reader["Priority"].ToString())
+                                    .WithAttribute(Convert.ToInt32(reader["Attribute"]))
                                     .Build());
                             }
                         }

@@ -36,6 +36,11 @@ namespace Infraestructure.Data
                         (SELECT MAX(DATEADD(HH, -6, StartDate))
                          FROM SupportCallAssignToHistory AS SCATH
                          WHERE SCATH.SupportCallID = Sc.SupportCallID) AS DateAssignedTo,
+                        ( SELECT COUNT(*)
+                        FROM AttributeValue AS Av  
+                        LEFT JOIN AttributeBoundColumn AS Abc ON Abc.AttributeBoundColumnID = Av.AttributeBoundColumnID
+                        LEFT JOIN AttributeColumn AS Ac ON Ac.AttributeColumnID = Abc.AttributeColumnID
+                        WHERE ParentID=Sc.SupportCallID) As Attribute,
                         Pri.Description AS [Priority]
                     FROM 
                         SupportCall AS Sc WITH (NOLOCK)
@@ -49,7 +54,7 @@ namespace Infraestructure.Data
                         ValueListEntry AS Pri ON Pri.ValueListEntryID = SC.PriorityID
                     WHERE 
                         Sc.Closed = 0  
-                        AND Sc.AssignToQueueID IS NOT NULL "+queryParams+@" 
+                        AND Sc.AssignToQueueID IS NOT NULL " + queryParams+@" 
                 ) AS Subquery;
              ";
             return query; 
@@ -80,6 +85,11 @@ namespace Infraestructure.Data
                     (SELECT MAX( DATEADD(HH, -6, StartDate))
                      FROM SupportCallAssignToHistory AS SCATH
                      WHERE SCATH.SupportCallID = Sc.SupportCallID) AS DateAssignedTo,
+                    ( SELECT COUNT(*)
+                    FROM AttributeValue AS Av  
+                    LEFT JOIN AttributeBoundColumn AS Abc ON Abc.AttributeBoundColumnID = Av.AttributeBoundColumnID
+                    LEFT JOIN AttributeColumn AS Ac ON Ac.AttributeColumnID = Abc.AttributeColumnID
+                    WHERE ParentID=Sc.SupportCallID) As Attribute,
                 Pri.Description AS [Priority]
                 FROM 
                     SupportCall AS Sc WITH (NOLOCK)
@@ -89,7 +99,7 @@ namespace Infraestructure.Data
                     SupportCallStatus AS Status WITH (NOLOCK) ON Status.SupportCallStatusID = Sc.StatusID
                 LEFT JOIN  SupportCallSLAStatus Scs ON Scs.SupportCallID = Sc.SupportCallID
                 LEFT JOIN ValueListEntry AS Pri ON Pri.ValueListEntryID = SC.PriorityID
-	                WHERE Sc.Closed=0  AND Sc.AssignToQueueID IS NOT NULL "+queryParams+ @"  ORDER BY  Sc.OpenDate DESC
+	                WHERE Sc.Closed=0  AND Sc.AssignToQueueID IS NOT NULL " + queryParams+ @"  ORDER BY  Sc.OpenDate DESC
                   ";
             return query;
         }
